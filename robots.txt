@@ -2,5 +2,5 @@ User-agent: *
 Disallow: /wp-admin/
 Allow: /wp-admin/admin-ajax.php
 
-Sitemap: https://iroherb.com/sitemap.xml
-Sitemap: https://iroherb.com/sitemap.html
+Sitemap: https://design-for-changes.github.io/iroherb/sitemap.xml
+Sitemap: https://design-for-changes.github.io/iroherb/sitemap.html
