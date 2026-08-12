@@ -28,7 +28,7 @@ jobs:
         run: |
           mkdir -p _site /tmp/iroherb-assets
           git archive HEAD | tar -x -C _site
-          gh release download pages-assets-v1 --pattern 'site-assets.tar.part-*' --dir /tmp/iroherb-assets
+          gh release download pages-assets-v2 --pattern 'site-assets.tar.part-*' --dir /tmp/iroherb-assets
           cat /tmp/iroherb-assets/site-assets.tar.part-* | tar -xf - -C _site
           rm -rf _site/.github _site/README.md _site/.gitignore
           touch _site/.nojekyll
