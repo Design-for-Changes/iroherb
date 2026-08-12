@@ -1,0 +1,40 @@
+name: Deploy complete static site to Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Assemble site and restored media
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p _site /tmp/iroherb-assets
+          git archive HEAD | tar -x -C _site
+          gh release download pages-assets-v1 --pattern 'site-assets.tar.part-*' --dir /tmp/iroherb-assets
+          cat /tmp/iroherb-assets/site-assets.tar.part-* | tar -xf - -C _site
+          rm -rf _site/.github _site/README.md _site/.gitignore
+          touch _site/.nojekyll
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
